@@ -160,6 +160,6 @@ COPY dircolors "/root/.dircolors"
 RUN cp "${CONDA_DIR}/share/examples/krb5/krb5.conf" /etc \
     && chmod ugo+rw /etc/krb5.conf
 
-ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
+ENV LD_LIBRARY_PATH="${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
 
-WORKDIR "${HADOOP_HDFS_HOME}"
+WORKDIR "/mnt/mesos/sandbox"

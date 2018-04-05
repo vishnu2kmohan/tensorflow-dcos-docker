@@ -12,6 +12,5 @@ dependencies:
 - pandas
 - pyarrow
 - s3fs
-- theano
 - tensorflow=1.5.0=py36_0
 - xgboost
