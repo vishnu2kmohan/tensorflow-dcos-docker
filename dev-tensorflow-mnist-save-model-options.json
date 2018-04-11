@@ -1,0 +1,48 @@
+{
+  "service": {
+    "name": "/dev/tensorflow/mnist",
+    "service_account": "dev_tensorflow",
+    "service_account_secret": "dev/tensorflow/serviceCredential",
+    "user": "nobody",
+    "virtual_network_enabled": false,
+    "virtual_network_name": "dcos",
+    "log_level": "INFO",
+    "job_url": "https://s3.amazonaws.com/vishnu-mohan/tensorflow/distributed-minst-save-model.tgz",
+    "job_path": "./",
+    "job_name": "distributed_mnist_save_model",
+    "job_context": "{\"training_step\":10000}",
+    "use_gcs_key_secret": false,
+    "use_tensorboard": false,
+    "tf_image": "vishnumohan/tensorflow-dcos:latest",
+    "gpu_tf_image": "vishnumohna/tensorflow-dcos:latest-cudnn"
+  },
+  "parameter_server": {
+    "count": 0,
+    "port": 2223,
+    "cpus": 1,
+    "mem": 4096,
+    "disk": 4096,
+    "disk_type": "ROOT"
+  },
+  "worker": {
+    "count": 1,
+    "port": 2222,
+    "cpus": 1,
+    "mem": 4096,
+    "disk": 4096,
+    "disk_type": "ROOT"
+  },
+  "gpu_worker": {
+    "count": 0,
+    "gpus": 1,
+    "cpus": 1,
+    "mem": 4096,
+    "disk": 4096,
+    "disk_type": "ROOT"
+  },
+  "tensorboard": {
+    "port": 6006,
+    "cpus": 1,
+    "mem": 4096
+  }
+}
