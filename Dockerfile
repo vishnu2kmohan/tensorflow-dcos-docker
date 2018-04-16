@@ -39,9 +39,9 @@ ARG MESOS_PROTOBUF_JAR_SHA1="189ef74959049521be8f5a1c3de3921eb0117ffb"
 ARG MESOS_VERSION="1.5.0"
 ARG REPO="http://cdn-fastly.deb.debian.org"
 ARG TENSORFLOW_SERVING_APT_URL="http://storage.googleapis.com/tensorflow-serving-apt"
-ARG TENSORFLOW_SERVING_VERSION=1.5.0
+ARG TENSORFLOW_SERVING_VERSION=1.6.0
 ARG VCS_REF
-ARG TENSORFLOW_DCOS_VERSION="1.5.0-1.11.0"
+ARG TENSORFLOW_DCOS_VERSION="1.7.0-1.11.0"
 
 LABEL maintainer="Vishnu Mohan <vishnu@mesosphere.com>" \
       org.label-schema.build-date="${BUILD_DATE}" \
@@ -160,6 +160,6 @@ COPY dircolors "/root/.dircolors"
 RUN cp "${CONDA_DIR}/share/examples/krb5/krb5.conf" /etc \
     && chmod ugo+rw /etc/krb5.conf
 
-ENV LD_LIBRARY_PATH="${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
+ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
 
 WORKDIR "/mnt/mesos/sandbox"
