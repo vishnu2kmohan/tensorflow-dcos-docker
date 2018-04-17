@@ -10,7 +10,7 @@ ARG CONDA_INSTALLER="Miniconda3-4.3.31-Linux-x86_64.sh"
 ARG CONDA_MD5="7fe70b214bee1143e3e3f0467b71453c"
 ARG CONDA_URL="https://repo.continuum.io/miniconda"
 ARG DCOS_COMMONS_URL="https://downloads.mesosphere.com/dcos-commons"
-ARG DCOS_COMMONS_VERSION="0.40.5"
+ARG DCOS_COMMONS_VERSION="0.41.0"
 ARG DISTRO="debian"
 ARG DEBCONF_NONINTERACTIVE_SEEN="true"
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -23,6 +23,7 @@ ARG HADOOP_MAJOR_VERSION="2.7"
 ARG HADOOP_SHA256="0bfc4d9b04be919be2fdf36f67fa3b4526cdbd406c512a7a1f5f1b715661f831"
 ARG HADOOP_URL="http://www-us.apache.org/dist/hadoop/common"
 ARG HADOOP_VERSION="2.7.5"
+ARG HOME=/root
 ARG JAVA_HOME="/opt/jdk"
 ARG JAVA_URL="https://downloads.mesosphere.com/java"
 ARG JAVA_VERSION="8u162"
@@ -39,7 +40,7 @@ ARG MESOS_PROTOBUF_JAR_SHA1="189ef74959049521be8f5a1c3de3921eb0117ffb"
 ARG MESOS_VERSION="1.5.0"
 ARG REPO="http://cdn-fastly.deb.debian.org"
 ARG TENSORFLOW_SERVING_APT_URL="http://storage.googleapis.com/tensorflow-serving-apt"
-ARG TENSORFLOW_SERVING_VERSION=1.6.0
+ARG TENSORFLOW_SERVING_VERSION="1.6.0"
 ARG VCS_REF
 ARG TENSORFLOW_DCOS_VERSION="1.7.0-1.11.0"
 
@@ -61,6 +62,7 @@ ENV BOOTSTRAP="${MESOSPHERE_PREFIX}/bin/bootstrap" \
     DISTRO=${DISTRO:-"debian"} \
     GPG_KEYSERVER=${GPG_KEYSERVER:-"hkps://zimmermann.mayfirst.org"} \
     HADOOP_HDFS_HOME=${HADOOP_HDFS_HOME:-"/opt/hadoop"} \
+    HOME=${HOME:-"/root"} \
     JAVA_HOME=${JAVA_HOME:-"/opt/jdk"} \
     LANG=${LANG:-"en_US.UTF-8"} \
     LANGUAGE=${LANGUAGE:-"en_US.UTF-8"} \
@@ -150,6 +152,7 @@ RUN cd /tmp \
     && ${CONDA_DIR}/bin/conda update --json --all -yq \
     && ${CONDA_DIR}/bin/conda env update --json -q -f "${CONDA_DIR}/${CONDA_ENV_YML}" \
     && ${CONDA_DIR}/bin/conda clean --json -tipsy \
+    && rm -rf "${HOME}/.cache/pip" "${HOME}/.cache/yarn" "${HOME}/.node-gyp" \
     && rm -rf /tmp/*
 
 COPY profile "/root/.profile"
