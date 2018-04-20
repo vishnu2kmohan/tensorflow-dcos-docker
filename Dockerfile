@@ -15,18 +15,18 @@ ARG DISTRO="debian"
 ARG DEBCONF_NONINTERACTIVE_SEEN="true"
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG GPG_KEYSERVER="hkps://zimmermann.mayfirst.org"
-ARG HADOOP_AWS_JAR_SHA1="cfb9d10d22cccdfcb98345c1861912aec86710c8"
+ARG HADOOP_AWS_JAR_SHA1="d997f4cf765ca360b69c8bbcaab8785e7c37a55d"
 ARG HADOOP_AWS_URL="https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws"
-ARG HADOOP_AWS_VERSION="2.7.5"
+ARG HADOOP_AWS_VERSION="2.7.6"
 ARG HADOOP_HDFS_HOME="/opt/hadoop"
 ARG HADOOP_MAJOR_VERSION="2.7"
-ARG HADOOP_SHA256="0bfc4d9b04be919be2fdf36f67fa3b4526cdbd406c512a7a1f5f1b715661f831"
+ARG HADOOP_SHA256="f2327ea93f4bc5a5d7150dee8e0ede196d3a77ff8526a7dd05a48a09aae25669"
 ARG HADOOP_URL="http://www-us.apache.org/dist/hadoop/common"
-ARG HADOOP_VERSION="2.7.5"
+ARG HADOOP_VERSION="2.7.6"
 ARG HOME=/root
 ARG JAVA_HOME="/opt/jdk"
 ARG JAVA_URL="https://downloads.mesosphere.com/java"
-ARG JAVA_VERSION="8u162"
+ARG JAVA_VERSION="8u172"
 ARG LANG="en_US.UTF-8"
 ARG LANGUAGE="en_US.UTF-8"
 ARG LC_ALL="en_US.UTF-8"
@@ -39,10 +39,10 @@ ARG MESOS_MAVEN_URL="https://repo1.maven.org/maven2/org/apache/mesos/mesos"
 ARG MESOS_PROTOBUF_JAR_SHA1="189ef74959049521be8f5a1c3de3921eb0117ffb"
 ARG MESOS_VERSION="1.5.0"
 ARG REPO="http://cdn-fastly.deb.debian.org"
-ARG TENSORFLOW_SERVING_APT_URL="http://storage.googleapis.com/tensorflow-serving-apt"
-ARG TENSORFLOW_SERVING_VERSION="1.7.0"
-ARG VCS_REF
 ARG TENSORFLOW_DCOS_VERSION="1.7.0-1.11.0"
+ARG TENSORFLOW_SERVING_APT_URL="http://storage.googleapis.com/tensorflow-serving-apt"
+ARG TENSORFLOW_SERVING_VERSION="1.5.0"
+ARG VCS_REF
 
 LABEL maintainer="Vishnu Mohan <vishnu@mesosphere.com>" \
       org.label-schema.build-date="${BUILD_DATE}" \
@@ -161,7 +161,9 @@ COPY bashrc "/root/.bashrc"
 COPY dircolors "/root/.dircolors"
 
 RUN cp "${CONDA_DIR}/share/examples/krb5/krb5.conf" /etc \
-    && chmod ugo+rw /etc/krb5.conf
+    && chmod ugo+rw /etc/krb5.conf \
+    && mv /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0 /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0.bak \
+    && cp "${MESOSPHERE_PREFIX}/libmesos-bundle/lib/libcurl.so.4" /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
 
 ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
 
