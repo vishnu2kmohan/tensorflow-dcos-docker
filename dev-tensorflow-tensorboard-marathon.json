@@ -1,0 +1,82 @@
+{
+  "id": "/dev/tensorflow/tensorboard",
+  "cpus": 1,
+  "mem": 2048,
+  "user": "nobody",
+  "cmd": "tensorboard --logdir \"${TENSORBOARD_LOG_DIRECTORY}\" --port \"${PORT_TENSORBOARD}\"",
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "forcePullImage": true,
+      "image": "vishnumohan/tensorflow-dcos:1.8.0-1.11.1"
+    }
+  },
+  "env": {
+    "TENSORBOARD_LOG_DIRECTORY": "s3://vishnu-mohan/tensorflow/tensorboard/interactive",
+    "TENSORBOARD_PATH_PREFIX": "/service/dev/tensorflow/tensorboard",
+    "AWS_REGION": "us-east-1",
+    "S3_ENDPOINT": "s3.us-east-1.amazonaws.com",
+    "S3_USE_HTTPS": "1",
+    "S3_VERIFY_SSL": "1",
+    "AWS_ACCESS_KEY_ID": {
+      "secret": "awsAccessKeyId"
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "secret": "awsSecretAccessKey"
+    }
+  },
+  "secrets": {
+    "awsAccessKeyId": {
+      "source": "/dev/AWS_ACCESS_KEY_ID"
+    },
+    "awsSecretAccessKey": {
+      "source": "/dev/AWS_SECRET_ACCESS_KEY"
+    }
+  },
+  "labels": {
+    "DCOS_PACKAGE_IS_FRAMEWORK": "false",
+    "DCOS_PACKAGE_METADATA": "eyJpbWFnZXMiOnsiaWNvbi1zbWFsbCI6Imh0dHBzOi8vZG93bmxvYWRzLm1lc29zcGhlcmUuY29tL2Fzc2V0cy91bml2ZXJzZS8wMDAvYmV0YS10ZW5zb3JmbG93LWljb24tc21hbGwucG5nIiwiaWNvbi1tZWRpdW0iOiJodHRwczovL2Rvd25sb2Fkcy5tZXNvc3BoZXJlLmNvbS9hc3NldHMvdW5pdmVyc2UvMDAwL2JldGEtdGVuc29yZmxvdy1pY29uLW1lZGl1bS5wbmciLCJpY29uLWxhcmdlIjoiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vYXNzZXRzL3VuaXZlcnNlLzAwMC9iZXRhLXRlbnNvcmZsb3ctaWNvbi1sYXJnZS5wbmcifX0K",
+    "DCOS_PACKAGE_NAME": "tensorflow-tensorboard",
+    "DCOS_PACKAGE_REGISTRY_VERSION": "3.0",
+    "DCOS_PACKAGE_RELEASE": "0",
+    "DCOS_PACKAGE_SOURCE": "https://universe.mesosphere.com/repo",
+    "DCOS_PACKAGE_VERSION": "2.1.0-2.2.1-1",
+    "DCOS_SERVICE_NAME": "dev/tensorflow/tensorboard",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_SCHEME": "http",
+    "MARATHON_SINGLE_INSTANCE_APP": "true",
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com"
+  },
+  "portDefinitions": [
+    {
+      "protocol": "tcp",
+      "port": 0,
+      "name": "tensorboard",
+      "labels": {
+        "VIP_0": "/dev/tensorflow/tensorboard:6006"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 60,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
+  },
+  "unreachableStrategy": {
+    "expungeAfterSeconds": 0,
+    "inactiveAfterSeconds": 0
+  }
+}
