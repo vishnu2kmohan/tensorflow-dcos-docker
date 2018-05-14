@@ -3,7 +3,7 @@
   "cpus": 1,
   "mem": 2048,
   "user": "nobody",
-  "cmd": "tensorboard --logdir \"${TENSORBOARD_LOG_DIRECTORY}\" --port \"${PORT_TENSORBOARD}\"",
+  "cmd": "tensorboard --logdir ${TENSORBOARD_LOG_DIRECTORY} --port ${PORT_TENSORBOARD} --debugger_port ${PORT_DEBUGGER}",
   "container": {
     "type": "MESOS",
     "docker": {
@@ -57,6 +57,14 @@
       "name": "tensorboard",
       "labels": {
         "VIP_0": "/dev/tensorflow/tensorboard:6006"
+      }
+    },
+    {
+      "protocol": "tcp",
+      "port": 0,
+      "name": "debugger",
+      "labels": {
+        "VIP_0": "/dev/tensorflow/debugger:6064"
       }
     }
   ],
