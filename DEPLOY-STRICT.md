@@ -30,7 +30,7 @@ tee dev-tensorflow-mnist-options.json <<- 'EOF'
     "use_gcs_key_secret": false,
     "use_tensorboard": false,
     "tf_image": "vishnumohan/tensorflow-dcos:latest",
-    "gpu_tf_image": "vishnumohna/tensorflow-dcos:latest-cudnn"
+    "gpu_tf_image": "vishnumohan/tensorflow-dcos:latest-cudnn"
   },
   "parameter_server": {
     "count": 0,
