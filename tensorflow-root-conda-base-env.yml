@@ -5,9 +5,12 @@ channels:
 dependencies:
 - awscli
 - bazel
+- bokeh
+- cython
+- dask
+- distributed
 - grpcio
-- h5py
-- ipython
+- ipywidgets
 - libhdfs3
 - keras
 - matplotlib
@@ -18,5 +21,7 @@ dependencies:
 - scikit-learn
 - scipy
 - xgboost
+- xlrd
 - pip:
   - tensorflow==1.8.0
+  - tensorflow-hub
