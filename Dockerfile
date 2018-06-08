@@ -111,6 +111,7 @@ RUN echo "deb ${REPO}/${DISTRO} ${CODENAME} main" \
        git \
        gnupg \
        jq \
+       kstart \
        less \
        netcat \
        openssh-client \
