@@ -5,14 +5,11 @@ channels:
 dependencies:
 - awscli
 - bazel
-- bokeh
 - cython
-- dask
-- distributed
 - grpcio
-- ipywidgets
-- libhdfs3
+- ipython
 - keras
+- libhdfs3
 - matplotlib
 - pandas
 - pillow

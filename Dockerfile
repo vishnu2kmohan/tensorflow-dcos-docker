@@ -2,30 +2,24 @@
 # https://github.com/docker-library/repo-info/blob/master/repos/debian/tag-details.md#debian94---linux-amd64
 FROM debian@sha256:316ebb92ca66bb8ddc79249fb29872bece4be384cb61b5344fac4e84ca4ed2b2
 
-ARG AWS_JAVA_SDK_JAR_SHA1="650f07e69b071cbf41c32d4ea35fd6bbba8e6793"
-ARG AWS_JAVA_SDK_URL="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk"
-ARG AWS_JAVA_SDK_VERSION="1.7.5"
 ARG BUILD_DATE
 ARG CODENAME="stretch"
 ARG CONDA_DIR="/opt/conda"
 ARG CONDA_ENV_YML="tensorflow-root-conda-base-env.yml"
-ARG CONDA_INSTALLER="Miniconda3-4.5.1-Linux-x86_64.sh"
-ARG CONDA_MD5="0c28787e3126238df24c5d4858bd0744"
+ARG CONDA_INSTALLER="Miniconda3-4.5.4-Linux-x86_64.sh"
+ARG CONDA_MD5="a946ea1d0c4a642ddf0c3a26a18bb16d"
 ARG CONDA_URL="https://repo.continuum.io/miniconda"
 ARG DCOS_COMMONS_URL="https://downloads.mesosphere.com/dcos-commons"
-ARG DCOS_COMMONS_VERSION="0.42.1"
+ARG DCOS_COMMONS_VERSION="0.50.0"
 ARG DISTRO="debian"
 ARG DEBCONF_NONINTERACTIVE_SEEN="true"
 ARG DEBIAN_FRONTEND="noninteractive"
 ARG GPG_KEYSERVER="hkps://zimmermann.mayfirst.org"
-ARG HADOOP_AWS_JAR_SHA1="d997f4cf765ca360b69c8bbcaab8785e7c37a55d"
-ARG HADOOP_AWS_URL="https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws"
-ARG HADOOP_AWS_VERSION="2.7.6"
 ARG HADOOP_HDFS_HOME="/opt/hadoop"
-ARG HADOOP_MAJOR_VERSION="2.7"
-ARG HADOOP_SHA256="f2327ea93f4bc5a5d7150dee8e0ede196d3a77ff8526a7dd05a48a09aae25669"
+ARG HADOOP_MAJOR_VERSION="3.0"
+ARG HADOOP_SHA256="db96e2c0d0d5352d8984892dfac4e27c0e682d98a497b7e04ee97c3e2019277a"
 ARG HADOOP_URL="http://www-us.apache.org/dist/hadoop/common"
-ARG HADOOP_VERSION="2.7.6"
+ARG HADOOP_VERSION="3.0.3"
 ARG HOME="/root"
 ARG JAVA_HOME="/opt/jdk"
 ARG JAVA_URL="https://downloads.mesosphere.com/java"
@@ -43,11 +37,11 @@ ARG MESOS_PROTOBUF_JAR_SHA1="189ef74959049521be8f5a1c3de3921eb0117ffb"
 ARG MESOS_VERSION="1.5.0"
 ARG REPO="http://cdn-fastly.deb.debian.org"
 ARG TENSORFLOW_ECO_URL="https://s3.amazonaws.com/vishnu-mohan/tensorflow"
-ARG TENSORFLOW_HADOOP_JAR_SHA256="6a0399f315d79ed5f12546a3cced0968067486268af5c8b12389ebac5449118c"
-ARG TENSORFLOW_SPARK_JAR_SHA256="5b45a37b2b401528a51ef19247a304009d5c94cf210fb319c597bf331a798246"
+ARG TENSORFLOW_HADOOP_JAR_SHA256="cb77cc942a477fb0dbc6b7d17ee1cb0a0a73ba827f288db4c749d5fc0a0c5be3"
+ARG TENSORFLOW_SPARK_JAR_SHA256="303e8d5a8e2e9bad059435d4a86d03a71b3be00d661acba3c5b8f524f20b30fc"
 ARG TENSORFLOW_JAR_SHA256="4b6a9d76ea853db41532275a3608d2d1b5abc1c16609cf8b9ebfffef7c3036fc"
 ARG TENSORFLOW_JNI_SHA256="894d39d8e1d8d1329ea7153f8624657d27619c5db1d9535ab6b66296e3e6ee45"
-ARG TENSORFLOW_DCOS_VERSION="1.8.0-1.11.2"
+ARG TENSORFLOW_DCOS_VERSION="1.8.0-1.11.3"
 ARG TENSORFLOW_SERVING_APT_URL="http://storage.googleapis.com/tensorflow-serving-apt"
 ARG TENSORFLOW_SERVING_VERSION="1.5.0"
 ARG TENSORFLOW_URL="https://storage.googleapis.com/tensorflow"
@@ -148,20 +142,16 @@ RUN cd /tmp \
     && curl --retry 3 -fsSL -O "${HADOOP_URL}/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz" \
     && echo "${HADOOP_SHA256}" "hadoop-${HADOOP_VERSION}.tar.gz" | sha256sum -c - \
     && tar xf "hadoop-${HADOOP_VERSION}.tar.gz" -C "${HADOOP_HDFS_HOME}" --strip-components=1 \
-    && curl --retry 3 -fsSL -O "${AWS_JAVA_SDK_URL}/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar" \
-    && echo "${AWS_JAVA_SDK_JAR_SHA1} aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar" | sha1sum -c - \
-    && curl --retry 3 -fsSL -O "${HADOOP_AWS_URL}/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar" \
-    && echo "${HADOOP_AWS_JAR_SHA1} hadoop-aws-${HADOOP_AWS_VERSION}.jar" | sha1sum -c - \
+    && rm -rf "${HADOOP_HDFS_HOME}/share/doc" \
+    && cd "${HADOOP_HDFS_HOME}/share/hadoop/tools/lib" \
     && curl --retry 3 -fsSL -O "${XGBOOST_URL}/${XGBOOST_VERSION}/xgboost4j-${XGBOOST_VERSION}.jar" \
     && echo "${XGBOOST_JAVA_JAR_SHA256}" "xgboost4j-${XGBOOST_VERSION}.jar" | sha256sum -c - \
     && curl --retry 3 -fsSL -O "${XGBOOST_URL}/${XGBOOST_VERSION}/xgboost4j-spark-${XGBOOST_VERSION}.jar" \
     && echo "${XGBOOST_SPARK_JAR_SHA256}" "xgboost4j-spark-${XGBOOST_VERSION}.jar" | sha256sum -c - \
     && curl --retry 3 -fsSL -O "${TENSORFLOW_URL}/libtensorflow/libtensorflow-${TENSORFLOW_VERSION}.jar" \
     && echo "${TENSORFLOW_JAR_SHA256}" "libtensorflow-${TENSORFLOW_VERSION}.jar" | sha256sum -c - \
-    && curl --retry 3 -fsSL -O "${TENSORFLOW_ECO_URL}/${TENSORFLOW_VERSION}/tensorflow-hadoop-${TENSORFLOW_VERSION}.jar" \
+    && curl --retry 3 -fsSL -O "${TENSORFLOW_ECO_URL}/${TENSORFLOW_VERSION}/hadoop-${HADOOP_MAJOR_VERSION}/tensorflow-hadoop-${TENSORFLOW_VERSION}.jar" \
     && echo "${TENSORFLOW_HADOOP_JAR_SHA256}" "tensorflow-hadoop-${TENSORFLOW_VERSION}.jar" | sha256sum -c - \
-    && curl --retry 3 -fsSL -O "${TENSORFLOW_ECO_URL}/${TENSORFLOW_VERSION}/spark-tensorflow-connector_2.11-${TENSORFLOW_VERSION}.jar" \
-    && echo "${TENSORFLOW_SPARK_JAR_SHA256}" "spark-tensorflow-connector_2.11-${TENSORFLOW_VERSION}.jar" | sha256sum -c - \
     && cd /tmp \
     && curl --retry 3 -fsSL -O "${TENSORFLOW_URL}/libtensorflow/libtensorflow_jni-${TENSORFLOW_VARIANT}-linux-x86_64-${TENSORFLOW_VERSION}.tar.gz" \
     && echo "${TENSORFLOW_JNI_SHA256}" "libtensorflow_jni-${TENSORFLOW_VARIANT}-linux-x86_64-${TENSORFLOW_VERSION}.tar.gz" | sha256sum -c - \
@@ -191,7 +181,7 @@ RUN cd /tmp \
     && ${CONDA_DIR}/bin/conda update --json --all -yq \
     && ${CONDA_DIR}/bin/pip install --upgrade pip \
     && ${CONDA_DIR}/bin/conda env update --json -q -f "${CONDA_DIR}/${CONDA_ENV_YML}" \
-    && ${CONDA_DIR}/bin/conda remove --force --json -yq openjdk \
+    && ${CONDA_DIR}/bin/conda remove --force --json -yq openjdk pyqt qt \
     && rm -rf "${HOME}/.cache/pip" "${HOME}/.cache/yarn" "${HOME}/.node-gyp" \
     && ${CONDA_DIR}/bin/conda clean --json -tipsy \
     && rm -rf /tmp/*
@@ -206,6 +196,10 @@ RUN cp "${CONDA_DIR}/share/examples/krb5/krb5.conf" /etc \
     && mv /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0 /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0.bak \
     && cp "${MESOSPHERE_PREFIX}/libmesos-bundle/lib/libcurl.so.4" /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
 
-ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
+ENV HADOOP_CLASSPATH="${HADOOP_CLASSPATH}:${HADOOP_HDFS_HOME}/share/hadoop/tools/lib/*" \
+    LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:${MESOSPHERE_PREFIX}/libmesos-bundle/lib:${JAVA_HOME}/jre/lib/amd64/server"
+
+COPY hadoop-env.sh "${HADOOP_HDFS_HOME}/etc/hadoop/"
+COPY hadooprc "${HOME}/.hadooprc"
 
 WORKDIR "/mnt/mesos/sandbox"
