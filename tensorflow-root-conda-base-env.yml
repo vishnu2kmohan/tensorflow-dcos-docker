@@ -3,22 +3,47 @@ channels:
 - conda-forge
 - defaults
 dependencies:
+- atomicwrites
+- attrs
 - awscli
 - bazel
+- bokeh
+- click
 - cython
+- dask
+- dask-ml
+- dask-tensorflow
+- dask-xgboost
+- distributed
+- funcsigs
+- future
 - grpcio
 - ipython
+- ipywidgets
 - keras
 - libhdfs3
 - matplotlib
+- more-itertools
 - pandas
 - pillow
+- pluggy
+- psutil
+- py
 - pyarrow
+- pyglet
+- pytest
+- python-snappy
 - s3fs
 - scikit-learn
 - scipy
 - xgboost
 - xlrd
 - pip:
+  - flatbuffers
+  - gym[atari]
+  - opencv-python
+  - PyOpenGL
   - tensorflow==1.8.0
   - tensorflow-hub
+  - ray[rllib]
+  - redis

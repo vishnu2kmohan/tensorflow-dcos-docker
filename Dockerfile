@@ -172,18 +172,24 @@ RUN echo "deb [arch=amd64] ${TENSORFLOW_SERVING_APT_URL} stable tensorflow-model
 COPY "${CONDA_ENV_YML}" "${CONDA_DIR}/"
 
 RUN cd /tmp \
+    && apt-get update -yq --fix-missing \
+    && apt-get install -yq --no-install-recommends cmake gcc g++ make zlib1g-dev \
     && curl --retry 3 -fsSL -O "${CONDA_URL}/${CONDA_INSTALLER}" \
     && echo "${CONDA_MD5}  ${CONDA_INSTALLER}" | md5sum -c - \
     && bash "./${CONDA_INSTALLER}" -u -b -p "${CONDA_DIR}" \
     && ${CONDA_DIR}/bin/conda config --system --prepend channels conda-forge \
+    && ${CONDA_DIR}/bin/conda update --json --all -yq \
     && ${CONDA_DIR}/bin/conda config --system --set auto_update_conda false \
     && ${CONDA_DIR}/bin/conda config --system --set show_channel_urls true \
-    && ${CONDA_DIR}/bin/conda update --json --all -yq \
     && ${CONDA_DIR}/bin/pip install --upgrade pip \
     && ${CONDA_DIR}/bin/conda env update --json -q -f "${CONDA_DIR}/${CONDA_ENV_YML}" \
     && ${CONDA_DIR}/bin/conda remove --force --json -yq openjdk pyqt qt \
     && rm -rf "${HOME}/.cache/pip" "${HOME}/.cache/yarn" "${HOME}/.node-gyp" \
     && ${CONDA_DIR}/bin/conda clean --json -tipsy \
+    && apt-get remove -yq cmake gcc g++ make zlib1g-dev \
+    && apt autoremove -yq \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/*
 
 COPY profile "/root/.profile"
