@@ -7,6 +7,7 @@ dependencies:
 - attrs
 - awscli
 - bazel
+- beautifulsoup4
 - bokeh
 - click
 - cython
@@ -15,35 +16,46 @@ dependencies:
 - dask-tensorflow
 - dask-xgboost
 - distributed
+- flake8
 - funcsigs
 - future
 - grpcio
-- ipython
+- h5py
 - ipywidgets
 - keras
 - libhdfs3
+- lxml
 - matplotlib
 - more-itertools
+- mpi[openmpi]
+- mpi4py
 - pandas
+- pep8
 - pillow
 - pluggy
 - psutil
 - py
 - pyarrow
+- pyfolio
 - pyglet
 - pytest
 - python-snappy
+- r-base
+- r-irkernel
 - s3fs
 - scikit-learn
 - scipy
+- wrapt
 - xgboost
 - xlrd
+- yapf
 - pip:
   - flatbuffers
   - gym[atari]
+  - horovod
   - opencv-python
   - PyOpenGL
-  - tensorflow==1.8.0
-  - tensorflow-hub
   - ray[rllib]
   - redis
+  - tensorflow==1.8.0
+  - tensorflow-hub
