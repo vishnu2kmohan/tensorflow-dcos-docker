@@ -33,7 +33,7 @@ if [ ${MESOS_SANDBOX+x} ]; then
 
     # Register with the "notebook" app in the common/intersecting namespace, by default
     DASK_SCHEDULER_APP=${DASK_SCHEDULER_APP:-"notebook"}
-    REDIS_HEAD_APP=${REDIS_HEAD_APP:-"notebook"}
+    RAY_REDIS_APP=${RAY_REDIS_APP:-"notebook"}
     if [ "${LIBPROCESS_IP}" == "0.0.0.0" ]; then
         # Use the Spartan autoip address because the container is assigned an IP via CNI
         AUTOIP_SUFFIX="${FRAMEWORK_NAME}.autoip.dcos.thisdcos.directory"
@@ -42,7 +42,7 @@ if [ ${MESOS_SANDBOX+x} ]; then
              '-'.join(os.getenv('MARATHON_APP_ID', '/worker').split('/')[::-1][:-1][1:]))"
         )
         DASK_COMPUTED_ADDRESS="${DASK_SCHEDULER_APP}-${AUTOIP_PREFIX}.${AUTOIP_SUFFIX}:8786"
-        RAY_COMPUTED_ADDRESS="${REDIS_HEAD_APP}-${AUTOIP_PREFIX}.${AUTOIP_SUFFIX}:6379"
+        RAY_COMPUTED_ADDRESS="${RAY_REDIS_APP}-${AUTOIP_PREFIX}.${AUTOIP_SUFFIX}:6379"
     else
         # Use the L4LB address because the container is bound to the agent IP
         L4LB_SUFFIX="${FRAMEWORK_NAME}.l4lb.thisdcos.directory"
@@ -51,7 +51,7 @@ if [ ${MESOS_SANDBOX+x} ]; then
              ''.join(os.getenv('MARATHON_APP_ID', '/worker').split('/')[:-1]))"
         )
         DASK_COMPUTED_ADDRESS="${L4LB_PREFIX}${DASK_SCHEDULER_APP}.${L4LB_SUFFIX}:8786"
-        RAY_COMPUTED_ADDRESS="${L4LB_PREFIX}${REDIS_HEAD_APP}.${L4LB_SUFFIX}:6379"
+        RAY_COMPUTED_ADDRESS="${L4LB_PREFIX}${RAY_REDIS_APP}.${L4LB_SUFFIX}:6379"
     fi
     
     DASK_SCHEDULER_ADDRESS=${DASK_SCHEDULER_ADDRESS:-$DASK_COMPUTED_ADDRESS}
