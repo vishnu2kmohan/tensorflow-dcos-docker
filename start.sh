@@ -138,7 +138,7 @@ if [ ${START_RAY_WORKER+x} ]; then
     RAY_ARGS="${RAY_ARGS} --object-store-memory=${PLASMA_MEMORY_BYTES}"
     echo "RAY_ARGS: ${RAY_ARGS}"
     ray start ${RAY_ARGS} \
-        --node-ip-address=${MESOS_CONTAINER_IP} \
+        --node-ip-address="${MESOS_CONTAINER_IP}" \
         --redis-address="${RAY_REDIS_ADDRESS}" \
         --object-manager-port="${PORT_RAYOBJECTMANAGER}" \
         --block

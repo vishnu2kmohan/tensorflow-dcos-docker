@@ -37,8 +37,8 @@ dependencies:
 - py
 - pyarrow
 - pyfolio
-- pyglet
 - pytest
+- python=3.6.*
 - python-snappy
 - r-base
 - r-irkernel
@@ -54,6 +54,7 @@ dependencies:
   - gym[atari]
   - horovod
   - opencv-python
+  - pyglet
   - PyOpenGL
   - ray[rllib]
   - redis
