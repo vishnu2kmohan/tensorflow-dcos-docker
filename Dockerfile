@@ -203,18 +203,16 @@ RUN cd /tmp \
     && ${CONDA_DIR}/bin/conda clean --json -tipsy \
     && rm -rf /tmp/*
 
+COPY profile "/etc/skel/.profile"
 COPY profile "/root/.profile"
+COPY bash_profile "/etc/skel/.bash_profile"
 COPY bash_profile "/root/.bash_profile"
+COPY bashrc "/etc/skel/.bashrc"
 COPY bashrc "/root/.bashrc"
+COPY dircolors "/etc/skel/.dircolors"
 COPY dircolors "/root/.dircolors"
 
-COPY profile "/etc/skel/.profile"
-COPY bash_profile "/etc/skel/.bash_profile"
-COPY bashrc "/etc/skel/.bashrc"
-COPY dircolors "/etc/skel/.dircolors"
-
-RUN mv /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0 /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0.bak \
-    && cp "${MESOSPHERE_PREFIX}/libmesos-bundle/lib/libcurl.so.4" /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
+RUN cp "${MESOSPHERE_PREFIX}/libmesos-bundle/lib/libcurl.so.4" /usr/lib/x86_64-linux-gnu/libcurl.so.4.4.0
 
 ENV SPARK_DIST_CLASSPATH="${HADOOP_HDFS_HOME}/etc/hadoop:${HADOOP_HDFS_HOME}/share/hadoop/common/lib/*:${HADOOP_HDFS_HOME}/share/hadoop/common/*:${HADOOP_HDFS_HOME}/share/hadoop/hdfs:${HADOOP_HDFS_HOME}/share/hadoop/hdfs/lib/*:${HADOOP_HDFS_HOME}/share/hadoop/hdfs/*:${HADOOP_HDFS_HOME}/share/hadoop/yarn:${HADOOP_HDFS_HOME}/share/hadoop/yarn/lib/*:${HADOOP_HDFS_HOME}/share/hadoop/yarn/*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/lib/*:${HADOOP_HDFS_HOME}/share/hadoop/mapreduce/*:${HADOOP_HDFS_HOME}/share/hadoop/tools/lib/*" \
     HADOOP_CLASSPATH="${HADOOP_CLASSPATH}:${HADOOP_HDFS_HOME}/share/hadoop/tools/lib/*" \
