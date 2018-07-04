@@ -1,4 +1,4 @@
-FROM vishnumohan/tensorflow-dcos
+FROM dcoslabs/dcos-ml-worker
 
 ARG CONDA_ENV_YML="tensorflow-root-conda-cudnn-env.yml"
 ARG NVIDIA_CUDA_MAJOR_VERSION="9-0"
