@@ -244,6 +244,7 @@ RUN mkdir -p /var/lib/nginx \
 COPY start.sh "/usr/local/bin/"
 COPY start-dask-worker.sh "/usr/local/bin/"
 COPY start-ray-worker.sh "/usr/local/bin/"
+COPY ray-worker-health-check.sh "/usr/local/bin/"
 
 # Patch TensorFlowOnSpark to handle all Hadoop 3.x supported Filesystem URIs
 COPY TFNode.py "${CONDA_DIR}/lib/python3.6/site-packages/tensorflowonspark/"
