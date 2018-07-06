@@ -95,17 +95,17 @@ if [ ${START_DASK_WORKER+x} ]; then
     )
     echo "Dask Worker Memory Limit in Bytes: ${DASK_MEMORY_BYTES}"
     
-    PORT_WORKER=${PORT_WORKER:-""}
-    PORT_NANNY=${PORT_NANNY:-""}
-    PORT_BOKEH=${PORT_BOKEH:-""}
+    PORT_DASKWORKER=${PORT_DASKWORKER:-""}
+    PORT_DASKNANNY=${PORT_DASKNANNY:-""}
+    PORT_DASKBOKEH=${PORT_DASKBOKEH:-""}
     MESOS_TASK_ID=${MESOS_TASK_ID:-"dask-worker"}
     DASK_DEATH_TIMEOUT=${DASK_DEATH_TIMEOUT:-"180"}
 
     dask-worker \
         --host "${MESOS_CONTAINER_IP}" \
-        --worker-port "${PORT_WORKER}" \
-        --nanny-port "${PORT_NANNY}" \
-        --bokeh-port "${PORT_BOKEH}" \
+        --worker-port "${PORT_DASKWORKER}" \
+        --nanny-port "${PORT_DASKNANNY}" \
+        --bokeh-port "${PORT_DASKBOKEH}" \
         --nthreads "${DASK_THREADS}" \
         --nprocs "${DASK_PROCS}" \
         --name "${MESOS_TASK_ID}" \
